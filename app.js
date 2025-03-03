@@ -3,6 +3,11 @@ const express = require("express"); // Handles HTTP requests
 const fileUpload = require("express-fileupload"); //  Middleware for handling file uploads
 const path = require("path"); // Helps with file path resolution
 
+/*  Import Middleware to validate file uploads before processing */
+const filesPayloadExists = require('./middleware/filesPayloadExists');
+const fileExtLimiter = require('./middleware/fileExtLimiter');
+const fileSizeLimiter = require('./middleware/fileSizeLimiter');
+
 // Defines the server port (defaults to 3500).
 const PORT = process.env.PORT || 3500;
 
@@ -17,6 +22,10 @@ app.get("/", (req, res) => {
 // Handling File Uploads
 app.post("/upload",
     fileUpload({ createParentPath: true }), // Process uploaded files
+    filesPayloadExists, // Ensure files exist in the request 
+    fileExtLimiter(['.png','.jpg','.jpeg']), // Ensure that files are ≤ 2MB
+    fileSizeLimiter, // Ensure that files are images
+    /* Continue If all conditions pass */
     (req, res) => {
         // Log uploaded files to the console
         const files = req.files
