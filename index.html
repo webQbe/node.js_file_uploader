@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node.js File Uploader</title>
+    <style>
+        body {
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 1.5rem;
+                background-color: #333;
+                color: whitesmoke;
+        }
+
+        input, 
+        button {
+             font: inherit;
+             width: max-content;   
+        }
+
+        form {
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Frontend - the webpage where users upload files -->
+    <h1>Node.js File Uploader</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <!-- Allow user to select one or more image files -->
+        <input type="file" id="myFiles" accept="image/*" multiple />
+        <button>Submit</button>
+    </form>
+    <!-- Display the upload response -->
+    <h2></h2>
+    <h3></h3>
+    <script>
+         // Define form element
+         const form = document.getElementById('uploadForm')
+
+         /* Send the files via Fetch. */
+         const sendFiles = async () => {
+
+            // Collect the selected files
+            const myFiles = document.getElementById('myFiles').files
+
+            // Create FormData object
+            const formData = new FormData()
+            // Append files to FormData object
+            Object.keys(myFiles).forEach(key => {
+                formData.append(myFiles.item(key).name, myFiles.item(key))
+            })
+
+            // Send files to the backend
+            const response = await fetch('http://localhost:3500/upload', {
+                method: 'POST',
+                body: formData
+            })
+
+            /* Display the Response */
+            const json = await response.json()
+
+            /* Once the server responds, update <h2> and <h3> */
+            const h2 = document.querySelector('h2')
+            h2.textContent = `Status: ${json?.status}`
+
+            const h3 = document.querySelector('h3')
+            h3.textContent = json?.message
+
+            // Log the response     
+            console.log(json)
+
+         }
+        
+        /* Listen for form submit event */
+        form.addEventListener('submit', (e) => {
+            e.preventDefault() // Prevent the default form submission
+            sendFiles() // Send the files
+        })
+    </script>
+</body>
+</html>
