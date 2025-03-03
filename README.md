@@ -4,7 +4,7 @@
 - Upload multiple files with one HTML input
 - Use one input to select multiple files 
 - Display Success message on Submit
-- Uploaded files can be seen in the server
+- Uploaded files are moved to a directory in the server
 - Using middleware to limit file size, file extensions and to detect empty payloads
 
 

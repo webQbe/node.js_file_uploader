@@ -30,8 +30,26 @@ app.post("/upload",
         // Log uploaded files to the console
         const files = req.files
         console.log(files)
-        // Send back a JSON response
-        return res.json({ status: 'logged', message: 'logged' })
+
+        /* Process the Uploaded Files */
+        Object.keys(files) // Get an array of file names (keys)
+                .forEach( // Iterate over each uploaded file
+                    key => { 
+                    // Construct full file path in the files/ directory.
+                    const filepath = path.join(__dirname, 'files', files[key].name)
+                    // Move current file to the files/ directory
+                    files[key].mv(filepath, (err) => {
+                        //  If an error occurs while moving the file, return 500 Internal Server Error.
+                        if(err) return res.status(500).json({ status: "error", message: err })
+                })
+        })
+
+        // Return Success Response
+        return res.json({ 
+            status: 'Success', 
+            /* Convert the list of uploaded filenames into a comma-separated string. */
+            message: Object.keys(files).toString() 
+        })
     }
 )
 
