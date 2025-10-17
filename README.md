@@ -1,5 +1,8 @@
 # Node.js File Upload API
 
+This repo is an adaptation of [Node.js File Upload API with Express Tutorial](https://www.youtube.com/watch?v=4pmkQjsKJ-U&list=PL0Zuz27SZ-6PFkIxaJ6Xx_X46avTM1aYw&index=18&t=8s&pp=iAQB) by Dave Gray. 
+
+I followed the tutorial to learn followings:
 - Using `express-fileupload` package with Multi-File upload support
 - Upload multiple files with one HTML input
 - Use one input to select multiple files 
@@ -24,3 +27,9 @@
                 }
         ```
 6. Run the server: `npm run dev`
+
+## Credits
+Original tutorial: [Node.js File Upload API with Express Tutorial](https://www.youtube.com/watch?v=4pmkQjsKJ-U&list=PL0Zuz27SZ-6PFkIxaJ6Xx_X46avTM1aYw&index=18&t=8s&pp=iAQB) — Dave Gray
+
+## License
+MIT License
